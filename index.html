@@ -1000,14 +1000,24 @@
   "Mari kita atur jadwal meeting berikutnya.",
   "I'll check in with you later."
 ];
-;
+
+        function getQueryParameter(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const checkpoint = parseInt(getQueryParameter('cp'), 10);
         let currentPromptIndex = 0;
+        if (!isNaN(checkpoint) && checkpoint >= 0 && checkpoint < prompts.length) {
+            currentPromptIndex = checkpoint;
+        }
+        
         let completedPrompts = [];
 
         function resizeCanvas() {
             const promptHeight = document.getElementById('prompt').offsetHeight;
             const buttonsHeight = document.querySelector('.buttons').offsetHeight;
-            const availableHeight = window.innerHeight - promptHeight - buttonsHeight - 20; // Adjust the 20px for margins
+            const availableHeight = window.innerHeight - promptHeight - buttonsHeight - 20;
             canvas.width = window.innerWidth;
             canvas.height = availableHeight;
         }
